@@ -23,10 +23,6 @@ from PIL import Image
 from array import array
 import math
 
-image = Image.open("ve3irr-testing.png")
-# image = Image.open("smpte-bars.png")
-pixels = list(image.getdata())
-
 COLOR_FREQ = 3579545.0
 SAMPLES_PER_LINE = 768
 SAMP_RATE = SAMPLES_PER_LINE * 60 * .999 * 525 / 2
@@ -121,6 +117,12 @@ def addPixel(p):
     ntsc_signal += [BLACK_LEVEL + (WHITE_LEVEL - BLACK_LEVEL) * Em]
 
 
+image = Image.open("grcon22_rickroll.png")
+pixels_rickroll = list(image.getdata())
+
+image = Image.open("grcon22_flag.png")
+pixels_flag = list(image.getdata())
+
 line21_codes = [
     (0x14, 0x25),
     (0x14, 0x25),
@@ -147,7 +149,7 @@ for x in range(0, len(cc_text), 2):
 
 ntsc_signal = []
 
-for line21_code, line21_code2 in zip(line21_codes, line21_codes2):
+for frame, (line21_code, line21_code2) in enumerate(zip(line21_codes, line21_codes2)):
     # Generate even field
     ntsc_signal += INTERVALS
     for x in range(13):
@@ -159,7 +161,7 @@ for line21_code, line21_code2 in zip(line21_codes, line21_codes2):
         ntsc_signal += SYNCH_PULSE
         addBackPorch()
         for x in range(line * 640 + 2, (line+1) * 640 - 2):
-            addPixel(pixels[x])
+            addPixel(pixels_flag[x] if frame == 0 else pixels_rickroll[x])
         ntsc_signal += FRONT_PORCH
     addFirstHalfFrame()
 
@@ -175,12 +177,12 @@ for line21_code, line21_code2 in zip(line21_codes, line21_codes2):
         ntsc_signal += SYNCH_PULSE
         addBackPorch()
         for x in range(line * 640 + 2, (line+1) * 640 - 2):
-            addPixel(pixels[x])
+            addPixel(pixels_flag[x] if frame == 0 else pixels_rickroll[x])
         ntsc_signal += FRONT_PORCH
 
 ntsc_signal = [0.75 - (0.25/40) * x for x in ntsc_signal]
 
-f = open('ve3irr-testing.dat', 'wb')
+f = open('baseband.dat', 'wb')
 ntsc_array = array('f', ntsc_signal)
 ntsc_array.tofile(f)
 f.close()
