@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import random
+import sdrdle_tx
 from PIL import Image, ImageDraw, ImageFont
 
 TILE_SPACING = 80
@@ -44,13 +46,12 @@ def draw_tile(draw, center, letter, score):
         draw.rectangle(xy=rect, outline=255, width=4)
     else:
         draw.rectangle(xy=rect, fill=COLORS[score], outline=255, width=4)
-        text_x, text_y = draw.textsize(letter, font=TILE_FONT)
-        draw.text((center_x - (text_x // 2), center_y - (text_y // 2)), letter, font=TILE_FONT, fill=0)
+        text_x, text_y = draw.textsize(letter.upper(), font=TILE_FONT)
+        draw.text((center_x - (text_x // 2), center_y - (text_y // 2)), letter.upper(), font=TILE_FONT, fill=0)
 
 
 def draw_board(draw, target, guesses):
-    while len(guesses) < 6:
-        guesses.append("     ")
+    guesses = guesses + ["     "] * (6 - len(guesses))
 
     title = "SDRdle"
     text_x, text_y = draw.textsize(title, font=TITLE_FONT)
@@ -65,9 +66,32 @@ def draw_board(draw, target, guesses):
             draw_tile(draw, (center_x, center_y), guess[col], scores[col])
 
 
-image = Image.new(mode="L", size=(WIDTH, HEIGHT), color=0)
-draw = ImageDraw.Draw(image)
+with open("words1.txt") as f:
+    words1 = f.read().split()
 
-draw_board(draw, "BUGGY", ["EARTH", "LOINS", "DUMPY", "CUBBY", "BUGGY"])
+with open("words2.txt") as f:
+    words2 = f.read().split()
 
-image.save("sdrdle.png")
+allowed = set(words1 + words2)
+
+target = random.choice(words1)
+guesses = []
+
+for _ in range(6):
+    while True:
+        guess = input("Guess: ").lower()
+        if guess in allowed:
+            guesses.append(guess)
+            break
+        else:
+            print("Not in word list")
+
+    image = Image.new(mode="L", size=(WIDTH, HEIGHT), color=0)
+    draw = ImageDraw.Draw(image)
+
+    draw_board(draw, target, guesses)
+
+    image.save("sdrdle.png")
+
+    tb = sdrdle_tx.sdrdle_tx()
+    tb.run()

@@ -1,0 +1,166 @@
+options:
+  parameters:
+    author: argilo
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: no_gui
+    hier_block_src_path: '.:'
+    id: sdrdle_tx
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: run
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 12.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: freq
+  id: variable
+  parameters:
+    comment: ''
+    value: '926000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 76.0]
+    rotation: 0
+    state: true
+- name: resamp_taps
+  id: variable_low_pass_filter_taps
+  parameters:
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: (samp_rate / 2)*0.48
+    gain: '2.0'
+    samp_rate: samp_rate
+    value: ''
+    width: (samp_rate / 2)*0.05
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 12.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '2000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 12.0]
+    rotation: 0
+    state: enabled
+- name: paint_image_source_0
+  id: paint_image_source
+  parameters:
+    affinity: ''
+    alias: ''
+    autocontrast: '0'
+    bt709_map: '1'
+    comment: ''
+    image_file: sdrdle.png
+    image_flip: '1'
+    image_invert: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeatmode: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 244.0]
+    rotation: 0
+    state: true
+- name: paint_paint_bc_0
+  id: paint_paint_bc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    equalization: EQUALIZATION_OFF
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    randomsrc: INTERNAL
+    repeats: '8'
+    width: '480'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 268.0]
+    rotation: 0
+    state: true
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '2'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: resamp_taps
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 260.0]
+    rotation: 0
+    state: enabled
+- name: soapy_hackrf_sink_0
+  id: soapy_hackrf_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: 'False'
+    bandwidth: '0'
+    center_freq: freq
+    comment: ''
+    dev_args: ''
+    samp_rate: samp_rate
+    type: fc32
+    vga: '40'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [768, 288.0]
+    rotation: 0
+    state: true
+
+connections:
+- [paint_image_source_0, '0', paint_paint_bc_0, '0']
+- [paint_paint_bc_0, '0', rational_resampler_xxx_0, '0']
+- [rational_resampler_xxx_0, '0', soapy_hackrf_sink_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.3.0

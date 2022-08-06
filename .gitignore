@@ -1,3 +1,4 @@
+__pycache__
 /ntsc/baseband.dat
 /ntsc/flag.png
 /ntsc/grcon22_flag.png
@@ -9,3 +10,5 @@
 /paint/paint_tx.py
 /paint/paint1.py
 /paint/rect.c32
+/sdrdle/sdrdle.png
+/sdrdle/sdrdle_tx.py
