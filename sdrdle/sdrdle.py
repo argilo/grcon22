@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import random
+import string
 import sdrdle_tx
 from PIL import Image, ImageDraw, ImageFont
 
@@ -11,9 +12,10 @@ COLORS = (128, 208, 255)
 
 TITLE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 2)
 TILE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE)
+KEY_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 5)
 
 WIDTH = TILE_SPACING * 6
-HEIGHT = TILE_SPACING * 9
+HEIGHT = TILE_SPACING * 12
 
 
 def score(target, guess):
@@ -26,12 +28,34 @@ def score(target, guess):
             result[i] = 2
 
     for i in range(len(target)):
+        if result[i] == 2:
+            continue
         if guess[i] in target_letters:
             index = target_letters.index(guess[i])
             target_letters[index] = " "
             result[i] = 1
 
     return result
+
+
+def draw_key(draw, center, letter, score):
+    center_x, center_y = center
+
+    rect = [
+        (center_x - TILE_SIZE // 4, center_y - TILE_SIZE // 2),
+        (center_x + TILE_SIZE // 4, center_y + TILE_SIZE // 2)
+    ]
+
+    text_x, text_y = draw.textsize(letter.upper(), font=KEY_FONT)
+    if score == -1:
+        bg_color = 0
+        text_color = 255
+    else:
+        bg_color = COLORS[score]
+        text_color = 0
+
+    draw.rectangle(xy=rect, fill=bg_color, outline=255, width=4)
+    draw.text((center_x - (text_x // 2), center_y - (text_y // 2)), letter.upper(), font=KEY_FONT, fill=text_color)
 
 
 def draw_tile(draw, center, letter, score):
@@ -52,6 +76,7 @@ def draw_tile(draw, center, letter, score):
 
 def draw_board(draw, target, guesses):
     guesses = guesses + ["     "] * (6 - len(guesses))
+    letters = {letter: -1 for letter in string.ascii_lowercase}
 
     title = "SDRdle"
     text_x, text_y = draw.textsize(title, font=TITLE_FONT)
@@ -61,9 +86,27 @@ def draw_board(draw, target, guesses):
         center_y = TILE_SPACING * (row + 3)
         guess = guesses[row]
         scores = score(target, guess)
+
         for col in range(5):
             center_x = (WIDTH // 2) + TILE_SPACING * (col - 2)
             draw_tile(draw, (center_x, center_y), guess[col], scores[col])
+
+            if guess[col] in letters:
+                if scores[col] > letters[guess[col]]:
+                    letters[guess[col]] = scores[col]
+
+    keyboard = [
+        "qwertyuiop",
+        "asdfghjkl",
+        "zxcvbnm"
+    ]
+    row_offsets = [1.5, 2.0, 3.0]
+
+    for row, keyboard_row in enumerate(keyboard):
+        center_y = TILE_SPACING * (row + 9.5)
+        for col, letter in enumerate(keyboard_row):
+            center_x = TILE_SPACING * (col + row_offsets[row]) // 2
+            draw_key(draw, (center_x, center_y), letter, letters[letter])
 
 
 with open("words1.txt") as f:
