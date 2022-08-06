@@ -138,3 +138,6 @@ for _ in range(6):
 
     tb = sdrdle_tx.sdrdle_tx()
     tb.run()
+
+    if guess == target:
+        break
