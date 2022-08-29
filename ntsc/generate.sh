@@ -13,6 +13,9 @@ convert \
   -gravity north \
   -append \
   -extent 640x480 \
+  -font Arial \
+  -pointsize 24 \
+  -draw "text 224,432 'VE3IRR/W3'" \
   grcon22_rickroll.png
 
 convert \
@@ -23,6 +26,9 @@ convert \
   -gravity north \
   -append \
   -extent 640x480 \
+  -font Arial \
+  -pointsize 24 \
+  -draw "text 224,432 'VE3IRR/W3'" \
   grcon22_flag.png
 
 python3 ntsc_encode.py
