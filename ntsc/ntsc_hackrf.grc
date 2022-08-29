@@ -33,6 +33,18 @@ options:
     state: enabled
 
 blocks:
+- name: audio_filts
+  id: variable
+  parameters:
+    comment: ''
+    value: '32'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 1124.0]
+    rotation: 0
+    state: true
 - name: audio_interp
   id: variable
   parameters:
@@ -55,6 +67,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [8, 548.0]
+    rotation: 0
+    state: true
+- name: audio_taps
+  id: variable_low_pass_filter_taps
+  parameters:
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: '12000'
+    gain: audio_filts
+    samp_rate: input_audio_rate * audio_filts
+    value: ''
+    width: '1000'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [128, 1060.0]
     rotation: 0
     state: true
 - name: center_freq
@@ -105,6 +135,18 @@ blocks:
     coordinate: [8, 396.0]
     rotation: 0
     state: enabled
+- name: input_audio_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '48000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 1060.0]
+    rotation: 0
+    state: true
 - name: samp_rate
   id: variable
   parameters:
@@ -145,28 +187,6 @@ blocks:
     coordinate: [760, 516.0]
     rotation: 0
     state: true
-- name: analog_sig_source_x_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: '0.9'
-    comment: ''
-    freq: '1000'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: audio_rate
-    type: float
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [280, 460.0]
-    rotation: 0
-    state: true
 - name: analog_sig_source_x_1
   id: analog_sig_source_x
   parameters:
@@ -186,17 +206,17 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 588.0]
+    coordinate: [320, 572.0]
     rotation: 0
     state: true
-- name: analog_sig_source_x_2
+- name: analog_sig_source_x_2_0_0_0
   id: analog_sig_source_x
   parameters:
     affinity: ''
     alias: ''
     amp: '0.9'
     comment: ''
-    freq: '1200'
+    freq: '1000'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
@@ -209,50 +229,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [96, 724.0]
-    rotation: 0
-    state: true
-- name: analog_sig_source_x_2_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: '0.9'
-    comment: ''
-    freq: '700'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: audio_rate
-    type: float
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [536, 1060.0]
-    rotation: 0
-    state: true
-- name: analog_sig_source_x_2_0_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: '0.9'
-    comment: ''
-    freq: '800'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: audio_rate
-    type: float
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 820.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_3
@@ -317,7 +293,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 996.0]
+    coordinate: [720, 1012.0]
     rotation: 180
     state: true
 - name: blocks_add_const_vxx_0_0
@@ -335,7 +311,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 748.0]
+    coordinate: [808, 756.0]
     rotation: 180
     state: true
 - name: blocks_add_xx_0
@@ -371,9 +347,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 504.0]
+    coordinate: [600, 504.0]
     rotation: 0
     state: true
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: out.c32
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 396.0]
+    rotation: 0
+    state: disabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -463,8 +457,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 1100.0]
-    rotation: 0
+    coordinate: [912, 1012.0]
+    rotation: 180
     state: true
 - name: blocks_multiply_const_vxx_2_0
   id: blocks_multiply_const_vxx
@@ -481,8 +475,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 860.0]
-    rotation: 0
+    coordinate: [1000, 756.0]
+    rotation: 180
     state: true
 - name: blocks_multiply_xx_0
   id: blocks_multiply_xx
@@ -534,7 +528,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 980.0]
+    coordinate: [512, 996.0]
     rotation: 180
     state: true
 - name: blocks_vco_f_0_0
@@ -552,8 +546,62 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [616, 732.0]
+    coordinate: [600, 740.0]
     rotation: 180
+    state: true
+- name: blocks_wavfile_source_0
+  id: blocks_wavfile_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    file: part2.wav
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nchan: '1'
+    repeat: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [136, 492.0]
+    rotation: 0
+    state: true
+- name: blocks_wavfile_source_1
+  id: blocks_wavfile_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    file: part4.wav
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nchan: '1'
+    repeat: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [624, 1092.0]
+    rotation: 0
+    state: true
+- name: blocks_wavfile_source_1_0
+  id: blocks_wavfile_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    file: part5.wav
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nchan: '1'
+    repeat: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 836.0]
+    rotation: 0
     state: true
 - name: import_0
   id: import
@@ -578,7 +626,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 460.0]
+    coordinate: [176, 556.0]
     rotation: 0
     state: true
 - name: note_0_0
@@ -604,7 +652,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 1060.0]
+    coordinate: [672, 1156.0]
     rotation: 0
     state: true
 - name: note_2
@@ -617,7 +665,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [520, 820.0]
+    coordinate: [752, 900.0]
     rotation: 0
     state: true
 - name: osmosdr_sink_0
@@ -878,8 +926,71 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 268.0]
+    coordinate: [488, 268.0]
     rotation: 180
+    state: true
+- name: pfb_arb_resampler_xxx_0
+  id: pfb_arb_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    atten: '100'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nfilts: audio_filts
+    rrate: audio_rate / input_audio_rate
+    samp_delay: '0'
+    taps: audio_taps
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 476.0]
+    rotation: 0
+    state: true
+- name: pfb_arb_resampler_xxx_0_0
+  id: pfb_arb_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    atten: '100'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nfilts: audio_filts
+    rrate: audio_rate / input_audio_rate
+    samp_delay: '0'
+    taps: audio_taps
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [816, 1076.0]
+    rotation: 0
+    state: true
+- name: pfb_arb_resampler_xxx_0_0_0
+  id: pfb_arb_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    atten: '100'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nfilts: audio_filts
+    rrate: audio_rate / input_audio_rate
+    samp_delay: '0'
+    taps: audio_taps
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [904, 820.0]
+    rotation: 0
     state: true
 - name: qtgui_freq_sink_x_1
   id: qtgui_freq_sink_x
@@ -985,15 +1096,13 @@ blocks:
 
 connections:
 - [analog_frequency_modulator_fc_0, '0', rational_resampler_xxx_0, '0']
-- [analog_sig_source_x_0, '0', blocks_add_xx_1, '0']
 - [analog_sig_source_x_1, '0', blocks_add_xx_1, '1']
-- [analog_sig_source_x_2, '0', blocks_multiply_xx_0, '0']
-- [analog_sig_source_x_2_0, '0', blocks_multiply_const_vxx_2, '0']
-- [analog_sig_source_x_2_0_0, '0', blocks_multiply_const_vxx_2_0, '0']
+- [analog_sig_source_x_2_0_0_0, '0', blocks_multiply_xx_0, '0']
 - [analog_sig_source_x_3, '0', blocks_multiply_xx_0, '1']
 - [band_pass_filter_0, '0', blocks_add_xx_0, '0']
 - [blocks_add_const_vxx_0, '0', blocks_vco_f_0, '0']
 - [blocks_add_const_vxx_0_0, '0', blocks_vco_f_0_0, '0']
+- [blocks_add_xx_0, '0', blocks_file_sink_0, '0']
 - [blocks_add_xx_0, '0', osmosdr_sink_0, '0']
 - [blocks_add_xx_1, '0', analog_frequency_modulator_fc_0, '0']
 - [blocks_add_xx_1, '0', qtgui_freq_sink_x_1, '0']
@@ -1007,8 +1116,14 @@ connections:
 - [blocks_rotator_cc_0, '0', blocks_add_xx_0, '1']
 - [blocks_vco_f_0, '0', blocks_add_xx_1, '3']
 - [blocks_vco_f_0_0, '0', blocks_add_xx_1, '4']
+- [blocks_wavfile_source_0, '0', pfb_arb_resampler_xxx_0, '0']
+- [blocks_wavfile_source_1, '0', pfb_arb_resampler_xxx_0_0, '0']
+- [blocks_wavfile_source_1_0, '0', pfb_arb_resampler_xxx_0_0_0, '0']
+- [pfb_arb_resampler_xxx_0, '0', blocks_add_xx_1, '0']
+- [pfb_arb_resampler_xxx_0_0, '0', blocks_multiply_const_vxx_2, '0']
+- [pfb_arb_resampler_xxx_0_0_0, '0', blocks_multiply_const_vxx_2_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_1, '0']
 
 metadata:
   file_format: 1
-  grc_version: v3.11.0.0git-181-g643e1337
+  grc_version: 3.10.3.0
