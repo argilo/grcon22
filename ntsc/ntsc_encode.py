@@ -117,39 +117,63 @@ def addPixel(p):
     ntsc_signal += [BLACK_LEVEL + (WHITE_LEVEL - BLACK_LEVEL) * Em]
 
 
+def encodeCC(text_lines, channel):
+    if channel == 1:
+        next_line = [
+            (0x14, 0x25),
+            (0x14, 0x25),
+            (0x14, 0x2D),
+            (0x14, 0x2D),
+            (0x14, 0x70),
+            (0x14, 0x70),
+        ]
+    elif channel == 3:
+        next_line = [
+            (0x15, 0x25),
+            (0x15, 0x25),
+            (0x15, 0x2D),
+            (0x15, 0x2D),
+            (0x14, 0x70),
+            (0x14, 0x70),
+        ]
+
+    codes = []
+    for line in text_lines:
+        assert len(line) <= 32
+        if len(line) < 32:
+            line += "\0" * (32 - len(line))
+
+        codes += next_line
+        for x in range(0, len(line), 2):
+            codes.append((ord(line[x]), ord(line[x+1])))
+
+    return codes
+
+
 image = Image.open("grcon22_rickroll.png")
 pixels_rickroll = list(image.getdata())
 
 image = Image.open("grcon22_flag.png")
 pixels_flag = list(image.getdata())
 
-line21_codes = [
-    (0x14, 0x25),
-    (0x14, 0x25),
-    (0x14, 0x2D),
-    (0x14, 0x2D),
-    (0x14, 0x70),
-    (0x14, 0x70),
+cc1 = [
+    "cc1 line 1",
+    "cc1 line 2",
 ]
-cc_text = "Test One Two Three Four Five"
-for x in range(0, len(cc_text), 2):
-    line21_codes.append((ord(cc_text[x]), ord(cc_text[x+1])))
 
-line21_codes2 = [
-    (0x15, 0x25),
-    (0x15, 0x25),
-    (0x15, 0x2D),
-    (0x15, 0x2D),
-    (0x14, 0x70),
-    (0x14, 0x70),
+cc3 = [
+    "cc3 line 1",
+    "cc3 line 2",
 ]
-cc_text = "Foo Bar Baz 0000000000000000"
-for x in range(0, len(cc_text), 2):
-    line21_codes2.append((ord(cc_text[x]), ord(cc_text[x+1])))
+
+assert len(cc1) == len(cc3)
+line21_codes = encodeCC(cc1, 1)
+line21_codes2 = encodeCC(cc3, 3)
 
 ntsc_signal = []
 
 for frame, (line21_code, line21_code2) in enumerate(zip(line21_codes, line21_codes2)):
+    print(f"Generating frame {frame+1} of {len(line21_codes)}")
     # Generate even field
     ntsc_signal += INTERVALS
     for x in range(13):
