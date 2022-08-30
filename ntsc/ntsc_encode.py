@@ -181,18 +181,19 @@ cc3 = [
 cc3 = [codecs.encode(line, "rot_13") for line in cc3]
 
 assert len(cc1) == len(cc3)
-line21_codes = encodeCC(cc1, 1)
-line21_codes2 = encodeCC(cc3, 3)
+line21_codes_even = encodeCC(cc1, 1)
+line21_codes_odd = encodeCC(cc3, 3)
 
 ntsc_signal = []
 
-for frame, (line21_code, line21_code2) in enumerate(zip(line21_codes, line21_codes2)):
-    print(f"Generating frame {frame+1} of {len(line21_codes)}")
+for frame, (line21_code_even, line21_code_odd) in enumerate(zip(line21_codes_even, line21_codes_odd)):
+    print(f"Generating frame {frame+1} of {len(line21_codes_even)}")
+
     # Generate even field
     ntsc_signal += INTERVALS
     for x in range(13):
         if x == 11:
-            addLine21(line21_code[0], line21_code[1])
+            addLine21(line21_code_even[0], line21_code_even[1])
         else:
             addNonVisibleLine()
     for line in range(0, 480, 2):
@@ -207,7 +208,7 @@ for frame, (line21_code, line21_code2) in enumerate(zip(line21_codes, line21_cod
     ntsc_signal += INTERVALS + EXTRA_HALF_LINE
     for x in range(12):
         if x == 11:
-            addLine21(line21_code2[0], line21_code2[1])
+            addLine21(line21_code_odd[0], line21_code_odd[1])
         else:
             addNonVisibleLine()
     addSecondHalfFrame()
