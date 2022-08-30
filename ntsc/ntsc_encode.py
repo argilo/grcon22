@@ -184,6 +184,8 @@ assert len(cc1) == len(cc3)
 line21_codes_even = encodeCC(cc1, 1)
 line21_codes_odd = encodeCC(cc3, 3)
 
+flag_frame = 111
+
 ntsc_signal = []
 
 for frame, (line21_code_even, line21_code_odd) in enumerate(zip(line21_codes_even, line21_codes_odd)):
@@ -200,7 +202,7 @@ for frame, (line21_code_even, line21_code_odd) in enumerate(zip(line21_codes_eve
         ntsc_signal += SYNCH_PULSE
         addBackPorch()
         for x in range(line * 640 + 2, (line+1) * 640 - 2):
-            addPixel(pixels_flag[x] if frame == 0 else pixels_rickroll[x])
+            addPixel(pixels_flag[x] if frame == flag_frame else pixels_rickroll[x])
         ntsc_signal += FRONT_PORCH
     addFirstHalfFrame()
 
@@ -216,7 +218,7 @@ for frame, (line21_code_even, line21_code_odd) in enumerate(zip(line21_codes_eve
         ntsc_signal += SYNCH_PULSE
         addBackPorch()
         for x in range(line * 640 + 2, (line+1) * 640 - 2):
-            addPixel(pixels_flag[x] if frame == 0 else pixels_rickroll[x])
+            addPixel(pixels_flag[x] if frame == flag_frame else pixels_rickroll[x])
         ntsc_signal += FRONT_PORCH
 
 ntsc_signal = [0.75 - (0.25/40) * x for x in ntsc_signal]
