@@ -21,6 +21,7 @@
 
 from PIL import Image
 from array import array
+import codecs
 import math
 
 COLOR_FREQ = 3579545.0
@@ -157,14 +158,27 @@ image = Image.open("grcon22_flag.png")
 pixels_flag = list(image.getdata())
 
 cc1 = [
-    "cc1 line 1",
-    "cc1 line 2",
+    "https://www.youtube.com",
+    "/watch?v=dQw4w9WgXcQ",
+    "",
+    "Just kidding!",
+    "",
+    "Part 6:",
+    "flag[21-is-the-magic-number]",
+    "",
 ]
 
 cc3 = [
-    "cc3 line 1",
-    "cc3 line 2",
+    "So, you figured out how to",
+    "decode the other closed caption",
+    'channel, and "decrypt" the text',
+    "within. Good job!",
+    "",
+    "Part 7:",
+    "flag[cc3-for-the-win]",
+    "",
 ]
+cc3 = [codecs.encode(line, "rot_13") for line in cc3]
 
 assert len(cc1) == len(cc3)
 line21_codes = encodeCC(cc1, 1)
