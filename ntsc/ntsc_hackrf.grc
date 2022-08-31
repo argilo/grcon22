@@ -209,28 +209,6 @@ blocks:
     coordinate: [320, 572.0]
     rotation: 0
     state: true
-- name: analog_sig_source_x_2_0_0_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: '0.9'
-    comment: ''
-    freq: '1000'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: audio_rate
-    type: float
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [96, 724.0]
-    rotation: 0
-    state: true
 - name: analog_sig_source_x_3
   id: analog_sig_source_x
   parameters:
@@ -250,7 +228,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 852.0]
+    coordinate: [72, 836.0]
     rotation: 0
     state: true
 - name: band_pass_filter_0
@@ -567,6 +545,24 @@ blocks:
     coordinate: [136, 492.0]
     rotation: 0
     state: true
+- name: blocks_wavfile_source_0_0
+  id: blocks_wavfile_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    file: part3.wav
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nchan: '1'
+    repeat: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 676.0]
+    rotation: 180
+    state: true
 - name: blocks_wavfile_source_1
   id: blocks_wavfile_source
   parameters:
@@ -639,7 +635,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 724.0]
+    coordinate: [192, 692.0]
     rotation: 0
     state: true
 - name: note_1
@@ -992,6 +988,27 @@ blocks:
     coordinate: [904, 820.0]
     rotation: 0
     state: true
+- name: pfb_arb_resampler_xxx_0_1
+  id: pfb_arb_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    atten: '100'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nfilts: audio_filts
+    rrate: audio_rate / input_audio_rate
+    samp_delay: '0'
+    taps: audio_taps
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 740.0]
+    rotation: 0
+    state: true
 - name: qtgui_freq_sink_x_1
   id: qtgui_freq_sink_x
   parameters:
@@ -1097,7 +1114,6 @@ blocks:
 connections:
 - [analog_frequency_modulator_fc_0, '0', rational_resampler_xxx_0, '0']
 - [analog_sig_source_x_1, '0', blocks_add_xx_1, '1']
-- [analog_sig_source_x_2_0_0_0, '0', blocks_multiply_xx_0, '0']
 - [analog_sig_source_x_3, '0', blocks_multiply_xx_0, '1']
 - [band_pass_filter_0, '0', blocks_add_xx_0, '0']
 - [blocks_add_const_vxx_0, '0', blocks_vco_f_0, '0']
@@ -1117,11 +1133,13 @@ connections:
 - [blocks_vco_f_0, '0', blocks_add_xx_1, '3']
 - [blocks_vco_f_0_0, '0', blocks_add_xx_1, '4']
 - [blocks_wavfile_source_0, '0', pfb_arb_resampler_xxx_0, '0']
+- [blocks_wavfile_source_0_0, '0', pfb_arb_resampler_xxx_0_1, '0']
 - [blocks_wavfile_source_1, '0', pfb_arb_resampler_xxx_0_0, '0']
 - [blocks_wavfile_source_1_0, '0', pfb_arb_resampler_xxx_0_0_0, '0']
 - [pfb_arb_resampler_xxx_0, '0', blocks_add_xx_1, '0']
 - [pfb_arb_resampler_xxx_0_0, '0', blocks_multiply_const_vxx_2, '0']
 - [pfb_arb_resampler_xxx_0_0_0, '0', blocks_multiply_const_vxx_2_0, '0']
+- [pfb_arb_resampler_xxx_0_1, '0', blocks_multiply_xx_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_1, '0']
 
 metadata:
