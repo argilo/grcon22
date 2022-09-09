@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 TILE_SPACING = 80
 TILE_SIZE = 70
 FONT_SIZE = 50
-COLORS = (128, 208, 255)
+COLORS = (96, 208, 255)
 
 TITLE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 2)
 TILE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE)
