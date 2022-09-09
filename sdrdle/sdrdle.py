@@ -15,9 +15,10 @@ COLORS = (96, 208, 255)
 TITLE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 2)
 TILE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE)
 KEY_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 5)
+MESSAGE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 5)
 
 WIDTH = TILE_SPACING * 6
-HEIGHT = TILE_SPACING * 12
+HEIGHT = TILE_SPACING * 13
 
 
 def score(target, guess):
@@ -76,7 +77,7 @@ def draw_tile(draw, center, letter, score):
         draw.text((center_x - (text_x // 2), center_y - (text_y // 2)), letter.upper(), font=TILE_FONT, fill=0)
 
 
-def draw_board(draw, target, guesses):
+def draw_board(draw, target, guesses, message):
     guesses = guesses + ["     "] * (6 - len(guesses))
     letters = {letter: -1 for letter in string.ascii_lowercase}
 
@@ -110,6 +111,9 @@ def draw_board(draw, target, guesses):
             center_x = TILE_SPACING * (col + row_offsets[row]) // 2
             draw_key(draw, (center_x, center_y), letter, letters[letter])
 
+    text_x, text_y = draw.textsize(message, font=MESSAGE_FONT)
+    draw.text((WIDTH // 2 - (text_x // 2), TILE_SPACING * 25 // 2 - (text_y // 2)), message, font=MESSAGE_FONT, fill=255)
+
 
 with open("words1.txt") as f:
     words1 = f.read().split()
@@ -119,40 +123,52 @@ with open("words2.txt") as f:
 
 allowed = set(words1 + words2)
 
-target = random.choice(words1)
-guesses = []
-
 fp = open("aprs.log", newline="", encoding="iso-8859-1")
 reader = csv.DictReader(fp)
 for row in reader:
     pass
 
-for _ in range(6):
-    while True:
-        try:
-            row = next(reader)
-            source, comment = row["source"], row["comment"]
-            print(source, comment)
+guesses = []
+player = None
 
-            guess = comment.lower()
-            if guess in allowed:
-                guesses.append(guess)
-                break
-            else:
-                print("Not in word list")
+while True:
+    try:
+        row = next(reader)
+    except StopIteration:
+        time.sleep(0.1)
+        continue
 
-        except StopIteration:
-            time.sleep(0.1)
+    source, comment = row["source"], row["comment"]
+    print(source, comment)
+    guess = comment.lower()
+    message = ""
+
+    if guess == "new":
+        player = source
+        guesses = []
+        target = random.choice(words1)
+        message = f"Welcome, {player}!"
+    elif source == player:
+        if guess in allowed:
+            guesses.append(comment)
+            if guess == target:
+                player = None
+                message = "You win! Contact @argilo to get your flag."
+            elif len(guesses) == 6:
+                player = None
+                message = "Better luck next time."
+        else:
+            message = "Not in word list. Try again."
+    else:
+        print("==> Invalid command")
+        continue
 
     image = Image.new(mode="L", size=(WIDTH, HEIGHT), color=0)
     draw = ImageDraw.Draw(image)
 
-    draw_board(draw, target, guesses)
+    draw_board(draw, target, guesses, message)
 
     image.save("sdrdle.png")
 
     tb = sdrdle_tx.sdrdle_tx()
     tb.run()
-
-    if guess == target:
-        break
