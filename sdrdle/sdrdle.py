@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+import csv
 import random
 import string
 import sdrdle_tx
+import time
 from PIL import Image, ImageDraw, ImageFont
 
 TILE_SPACING = 80
@@ -120,14 +122,27 @@ allowed = set(words1 + words2)
 target = random.choice(words1)
 guesses = []
 
+fp = open("aprs.log", newline="", encoding="iso-8859-1")
+reader = csv.DictReader(fp)
+for row in reader:
+    pass
+
 for _ in range(6):
     while True:
-        guess = input("Guess: ").lower()
-        if guess in allowed:
-            guesses.append(guess)
-            break
-        else:
-            print("Not in word list")
+        try:
+            row = next(reader)
+            source, comment = row["source"], row["comment"]
+            print(source, comment)
+
+            guess = comment.lower()
+            if guess in allowed:
+                guesses.append(guess)
+                break
+            else:
+                print("Not in word list")
+
+        except StopIteration:
+            time.sleep(0.1)
 
     image = Image.new(mode="L", size=(WIDTH, HEIGHT), color=0)
     draw = ImageDraw.Draw(image)
