@@ -2,7 +2,10 @@
 
 import csv
 import random
+import signal
 import string
+import subprocess
+import sys
 import sdrdle_tx
 import time
 from PIL import Image, ImageDraw, ImageFont
@@ -131,6 +134,30 @@ for row in reader:
 guesses = []
 player = None
 
+tb = None
+print("Starting direwolf")
+proc = subprocess.Popen("rtl_fm -f 903.5M -o 4 - | direwolf -n 1 -r 24000 -b 16 -L aprs.log -",
+                        shell=True,
+                        stdout=subprocess.DEVNULL)
+print("Started direwolf")
+
+
+def sig_handler(sig=None, frame=None):
+    print("Stopping direwolf")
+    proc.send_signal(signal.SIGINT)
+    proc.wait()
+    print("Stopped direwolf")
+
+    if tb:
+        tb.stop()
+        tb.wait()
+
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, sig_handler)
+signal.signal(signal.SIGTERM, sig_handler)
+
 while True:
     try:
         row = next(reader)
@@ -172,3 +199,4 @@ while True:
 
     tb = sdrdle_tx.sdrdle_tx()
     tb.run()
+    tb = None
