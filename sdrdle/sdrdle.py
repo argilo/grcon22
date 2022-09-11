@@ -75,9 +75,51 @@ def draw_tile(draw, center, letter, score):
     if letter == " ":
         draw.rectangle(xy=rect, outline=255, width=4)
     else:
-        draw.rectangle(xy=rect, fill=COLORS[score], outline=255, width=4)
+        if score == -1:
+            bg_color = 0
+            text_color = 255
+        else:
+            bg_color = COLORS[score]
+            text_color = 0
+        draw.rectangle(xy=rect, fill=bg_color, outline=255, width=4)
         text_x, text_y = draw.textsize(letter.upper(), font=TILE_FONT)
-        draw.text((center_x - (text_x // 2), center_y - (text_y // 2)), letter.upper(), font=TILE_FONT, fill=0)
+        draw.text((center_x - (text_x // 2), center_y - (text_y // 2)), letter.upper(), font=TILE_FONT, fill=text_color)
+
+
+def draw_rules(draw):
+    draw.text((20, 50), """Guess the SDRdle in 6 tries.
+
+Each guess must be a valid
+5-letter word. Transmit an
+APRS packet to submit.
+
+After each guess, the color of
+the tiles will change to show
+how close your guess was to
+the word.
+
+Examples:""", font=MESSAGE_FONT, spacing=10, fill=255)
+
+    draw_tile(draw, (57, 520), "W", 2)
+    draw_tile(draw, (57 + TILE_SPACING, 520), "E", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 2, 520), "A", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 3, 520), "R", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 4, 520), "Y", -1)
+    draw.text((20, 570), "The letter W is in the word\nand in the correct spot.", font=MESSAGE_FONT, spacing=10, fill=255)
+
+    draw_tile(draw, (57, 700), "P", -1)
+    draw_tile(draw, (57 + TILE_SPACING, 700), "I", 1)
+    draw_tile(draw, (57 + TILE_SPACING * 2, 700), "L", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 3, 700), "L", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 4, 700), "S", -1)
+    draw.text((20, 750), "The letter I is in the word\nbut in the wrong spot.", font=MESSAGE_FONT, spacing=10, fill=255)
+
+    draw_tile(draw, (57, 880), "V", -1)
+    draw_tile(draw, (57 + TILE_SPACING, 880), "A", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 2, 880), "G", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 3, 880), "U", 0)
+    draw_tile(draw, (57 + TILE_SPACING * 4, 880), "E", -1)
+    draw.text((20, 930), "The letter U is not in the word\nin any spot.", font=MESSAGE_FONT, spacing=10, fill=255)
 
 
 def draw_board(draw, target, guesses, message):
@@ -193,7 +235,10 @@ while True:
     image = Image.new(mode="L", size=(WIDTH, HEIGHT), color=0)
     draw = ImageDraw.Draw(image)
 
-    draw_board(draw, target, guesses, message)
+    if len(guesses) == 0:
+        draw_rules(draw)
+    else:
+        draw_board(draw, target, guesses, message)
 
     image.save("sdrdle.png")
 
