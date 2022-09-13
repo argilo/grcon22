@@ -3,7 +3,7 @@
 set -e
 
 qrencode -o rickroll.png 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-qrencode -o flag.png 'Part 1: flag{2OBGfE29cR1SpOXuJpI832FyAWvNPLtC}'
+qrencode -o flag.png 'Part 2: flag{2OBGfE29cR1SpOXuJpI832FyAWvNPLtC}'
 
 for SOURCE in rickroll flag
 do

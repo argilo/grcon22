@@ -533,7 +533,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    file: part2.wav
+    file: part1.wav
     maxoutbuf: '0'
     minoutbuf: '0'
     nchan: '1'
@@ -1144,4 +1144,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.3.0
+  grc_version: 3.10.4.0-rc1
