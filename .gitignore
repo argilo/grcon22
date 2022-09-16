@@ -3,14 +3,14 @@ __pycache__
 /ntsc/flag.png
 /ntsc/grcon22_flag.png
 /ntsc/grcon22_rickroll.png
-/ntsc/never_the_same_color_441MHz_8Msps.c32
+/ntsc/never_the_same_color.sigmf-data
 /ntsc/ntsc_hackrf.py
 /ntsc/out.c32
 /ntsc/rickroll.png
-/paint/final.c32
 /paint/logo-flag.png
 /paint/paint_tx.py
 /paint/paint1.py
 /paint/rect.c32
+/paint/signal_to_noise.sigmf-data
 /sdrdle/sdrdle.png
 /sdrdle/sdrdle_tx.py
