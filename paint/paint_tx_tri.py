@@ -127,19 +127,21 @@ def main(top_block_cls=paint_tx, options=None):
     signal.signal(signal.SIGINT, sig_handler)
     signal.signal(signal.SIGTERM, sig_handler)
 
-    rows = os.path.getsize("rect.c32") // (8 * 1024)
+    fft_size = 512
+
+    rows = os.path.getsize("rect.c32") // (8 * fft_size)
     f = open("rect.c32", "rb")
 
     for n in range(rows):
         print(n)
-        row = f.read(8 * 1024)
-        floats = struct.unpack("f" * (2 * 1024), row)
+        row = f.read(8 * fft_size)
+        floats = struct.unpack("f" * (2 * fft_size), row)
         samples = []
-        for x in range(1024):
+        for x in range(fft_size):
             samples.append(complex(floats[2*x], floats[2*x+1]))
 
         tb.set_data(samples)
-        tb.set_rate(200**(n / rows))
+        tb.set_rate(300**(n / rows))
         tb.set_noise_amp(0 if n < 640 else 1.5 * ((n - 640) / (rows - 640)))
         tb.run()
 
