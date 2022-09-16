@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [8, 12.0]
     rotation: 0
     state: enabled
 
@@ -389,4 +389,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.4.0-rc1
+  grc_version: 3.10.4.0

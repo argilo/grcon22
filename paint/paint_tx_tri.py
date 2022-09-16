@@ -6,7 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Paint Tx
-# GNU Radio version: 3.10.4.0-rc1
+# GNU Radio version: 3.10.4.0
 
 from gnuradio import analog
 from gnuradio import blocks
