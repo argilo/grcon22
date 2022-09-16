@@ -12,5 +12,6 @@ __pycache__
 /paint/paint1.py
 /paint/rect.c32
 /paint/signal_to_noise.sigmf-data
+/sdrdle/aprs.log
 /sdrdle/sdrdle.png
 /sdrdle/sdrdle_tx.py
