@@ -13,8 +13,8 @@ RFM69OOK radio(RFM69_CS, RFM69_INT, true, 0);
 void setup() {
   radio.initialize();
   radio.transmitBegin();
-  radio.setFrequencyMHz(903.95);
-  radio.setPowerLevel(20);
+  radio.setFrequencyMHz(904.45);
+  radio.setPowerLevel(16);
   pinMode(LED_BUILTIN, OUTPUT);
 }
 
