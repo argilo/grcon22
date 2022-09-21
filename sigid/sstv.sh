@@ -12,6 +12,7 @@ convert \
   -font Arial \
   -pointsize 18 \
   -draw "text 106,232 'VE3IRR/W3'" \
+  -type truecolor \
   sstv.bmp
 
 rm flag.png
