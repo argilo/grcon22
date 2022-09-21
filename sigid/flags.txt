@@ -1,0 +1,15 @@
+This is VE3IRR. For signal identification challenge number X, the flag is:
+
+ 1. NBFM flag{nnsxekejjtllolnz} 25
+ 2. WBFM mono flag{erbotarllkuxkgkf} 25
+ 3. WBFM stereo flag{pshcxvrwyuztgfbu} 50
+ 4. WBFM RDS Signal identification challenge 4: flag{rad1O_d4ta_5yst3M} 50
+ 5. AM flag{ywkscicxidtxbmyv} 25
+ 6. USB flag{dkjsutzyckiwrhni} 25
+ 7. LSB flag{xnsuvlucworitbdy} 25
+ 8. CW This is VE3IRR   -   For signal identification challenge 8 the flag is itelilelcsemzpcc 50
+ 9. M17 flag{kupfievkypgerlea} 75
+ 10. APRS Signal identification challenge #10: flag{1200_b4uD_sh0ulD_b3_en0ugH_f0R_4ny0Ne} 50
+ 11. PSK31 Signal identification challenge #11: flag{no_31_b4uD_i5_en0ugH} 50
+ 12. POCSAG Signal identification challenge #12: flag{b4cK_to_pag3_0n3} 50
+ 13. SSTV Signal identification challenge #13: flag{sl0w_en0uGh_f0r_U} 50

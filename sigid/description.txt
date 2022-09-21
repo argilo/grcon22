@@ -1,0 +1,8 @@
+Signal identification
+Challenge #1
+
+The attached recording has 13 flags hidden in it.
+You'll need to figure out how to demodulate all the signals to recover them.
+They can be solved in any order.
+
+The flag format is `flag{abc}`. In some cases the letters are given phonetically.

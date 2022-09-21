@@ -1,0 +1,561 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: RDS
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: rds_tx
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: ''
+    window_size: 1600, 2048
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [128, 5]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: fm_max_dev
+  id: variable
+  parameters:
+    comment: ''
+    value: 75e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1104, 140.0]
+    rotation: 0
+    state: enabled
+- name: freq
+  id: variable
+  parameters:
+    comment: ''
+    value: 87.5e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1104, 12.0]
+    rotation: 0
+    state: enabled
+- name: rds_gain
+  id: variable
+  parameters:
+    comment: ''
+    value: 5000 / fm_max_dev
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1104, 204.0]
+    rotation: 0
+    state: enabled
+- name: usrp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '380000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1104, 76.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '0.200'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1052.0, 456]
+    rotation: 270
+    state: enabled
+- name: digital_chunks_to_symbols_xx_0
+  id: digital_chunks_to_symbols_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dimension: '1'
+    in_type: byte
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    out_type: float
+    symbol_table: '[-1, 1]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [272, 368.0]
+    rotation: 0
+    state: true
+- name: gr_add_xx_1
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '4'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [817, 800]
+    rotation: 270
+    state: enabled
+- name: gr_diff_encoder_bb_0
+  id: digital_diff_encoder_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    coding: digital.DIFF_DIFFERENTIAL
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    modulus: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 164.0]
+    rotation: 0
+    state: enabled
+- name: gr_frequency_modulator_fc_0
+  id: analog_frequency_modulator_fc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    sensitivity: 2*math.pi*fm_max_dev/usrp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 1044.0]
+    rotation: 180
+    state: enabled
+- name: gr_map_bb_1
+  id: digital_map_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    map: '[1,2]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 316.0]
+    rotation: 180
+    state: enabled
+- name: gr_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 352.0]
+    rotation: 0
+    state: enabled
+- name: gr_multiply_xx_1
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [776, 600]
+    rotation: 0
+    state: enabled
+- name: gr_rds_encoder_0
+  id: rds_encoder
+  parameters:
+    af1: 133.7e6
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ms: 'False'
+    pi_country_code: '13'
+    pi_coverage_area: '3'
+    pi_reference_number: '147'
+    ps: '"VE3IRR"'
+    pty: '1'
+    pty_locale: '1'
+    radiotext: 'Signal identification challenge 4: flag{rad1O_d4ta_5yst3M}'
+    ta: 'False'
+    tp: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 92.0]
+    rotation: 0
+    state: enabled
+- name: gr_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: 38e3
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: usrp_rate
+    type: float
+    waveform: analog.GR_SIN_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [136, 572.0]
+    rotation: 0
+    state: enabled
+- name: gr_sig_source_x_0_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: rds_gain
+    comment: ''
+    freq: 57e3
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: usrp_rate
+    type: float
+    waveform: analog.GR_SIN_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 188.0]
+    rotation: 0
+    state: enabled
+- name: gr_sig_source_x_0_1
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0.1'
+    comment: ''
+    freq: 19e3
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: usrp_rate
+    type: float
+    waveform: analog.GR_SIN_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [136, 444.0]
+    rotation: 0
+    state: enabled
+- name: gr_unpack_k_bits_bb_0
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '2'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [272, 316.0]
+    rotation: 180
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 4]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 15e3
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: usrp_rate
+    type: interp_fir_filter_fff
+    width: 2e3
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 684.0]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0_0_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 15e3
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: usrp_rate
+    type: interp_fir_filter_fff
+    width: 2e3
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 836.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: out
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [352, 1044.0]
+    rotation: 180
+    state: enabled
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: chan1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [152, 732.0]
+    rotation: 0
+    state: enabled
+- name: pad_source_1
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: chan2
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [152, 884.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '48'
+    fbw: '0'
+    interp: '380'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 708.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '48'
+    fbw: '0'
+    interp: '380'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 860.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_1
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '38'
+    fbw: '0'
+    interp: '96'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 1020.0]
+    rotation: 180
+    state: enabled
+- name: root_raised_cosine_filter_0
+  id: root_raised_cosine_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: '1'
+    comment: ''
+    decim: '160'
+    gain: '111'
+    interp: '160'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ntaps: 160*11
+    samp_rate: usrp_rate
+    sym_rate: '2375'
+    type: interp_fir_filter_fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 340.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [blocks_multiply_const_vxx_0_0, '0', gr_add_xx_1, '0']
+- [digital_chunks_to_symbols_xx_0, '0', root_raised_cosine_filter_0, '0']
+- [gr_add_xx_1, '0', gr_frequency_modulator_fc_0, '0']
+- [gr_diff_encoder_bb_0, '0', gr_map_bb_1, '0']
+- [gr_frequency_modulator_fc_0, '0', rational_resampler_xxx_1, '0']
+- [gr_map_bb_1, '0', gr_unpack_k_bits_bb_0, '0']
+- [gr_multiply_xx_0, '0', blocks_multiply_const_vxx_0_0, '0']
+- [gr_multiply_xx_1, '0', gr_add_xx_1, '2']
+- [gr_rds_encoder_0, '0', gr_diff_encoder_bb_0, '0']
+- [gr_sig_source_x_0, '0', gr_multiply_xx_1, '0']
+- [gr_sig_source_x_0_0_0, '0', gr_multiply_xx_0, '0']
+- [gr_sig_source_x_0_1, '0', gr_add_xx_1, '1']
+- [gr_unpack_k_bits_bb_0, '0', digital_chunks_to_symbols_xx_0, '0']
+- [low_pass_filter_0_0, '0', gr_add_xx_1, '3']
+- [low_pass_filter_0_0_0, '0', gr_multiply_xx_1, '1']
+- [pad_source_0, '0', rational_resampler_xxx_0, '0']
+- [pad_source_1, '0', rational_resampler_xxx_0_0, '0']
+- [rational_resampler_xxx_0, '0', low_pass_filter_0_0, '0']
+- [rational_resampler_xxx_0_0, '0', low_pass_filter_0_0_0, '0']
+- [rational_resampler_xxx_1, '0', pad_sink_0, '0']
+- [root_raised_cosine_filter_0, '0', gr_multiply_xx_0, '1']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.4.0
