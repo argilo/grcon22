@@ -223,9 +223,9 @@ while True:
         if guess in allowed:
             guesses.append(comment)
             if guess == target:
+                print(f"{player} WINS!!!")
                 player = None
                 message = "You win! Contact @argilo\nto get your flag."
-                print(f"{player} WINS!!!")
             elif len(guesses) == 6:
                 player = None
                 message = "Better luck next time."
