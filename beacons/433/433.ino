@@ -1,4 +1,5 @@
 #include <RFM69OOK.h>
+#include <ArduinoLowPower.h>
 
 #define RFM69_CS      8
 #define RFM69_INT     3
@@ -6,7 +7,7 @@
 #define LED           13
 
 char message[] = "this is ve3irr/w3   -   the flag is microbiology";
-unsigned long dit_len = 120;
+unsigned long dit_len = 100; /* 12 WPM */
 
 RFM69OOK radio(RFM69_CS, RFM69_INT, true, 0);
 
@@ -89,5 +90,5 @@ void loop() {
     }
     end();
   }
-  delay(60000);
+  LowPower.sleep(60000);
 }
