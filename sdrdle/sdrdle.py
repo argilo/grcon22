@@ -86,8 +86,8 @@ def draw_tile(draw, center, letter, score):
         draw.text((center_x - (text_x // 2), center_y - (text_y // 2)), letter.upper(), font=TILE_FONT, fill=text_color)
 
 
-def draw_rules(draw):
-    draw.text((20, 50), """Guess the SDRdle in 6 tries.
+def draw_rules(draw, message):
+    draw.text((20, 20), """Guess the SDRdle in 6 tries.
 
 Each guess must be a valid
 5-letter word. Transmit an
@@ -100,26 +100,28 @@ the word.
 
 Examples:""", font=MESSAGE_FONT, spacing=10, fill=255)
 
-    draw_tile(draw, (57, 520), "W", 2)
-    draw_tile(draw, (57 + TILE_SPACING, 520), "E", -1)
-    draw_tile(draw, (57 + TILE_SPACING * 2, 520), "A", -1)
-    draw_tile(draw, (57 + TILE_SPACING * 3, 520), "R", -1)
-    draw_tile(draw, (57 + TILE_SPACING * 4, 520), "Y", -1)
-    draw.text((20, 570), "The letter W is in the word\nand in the correct spot.", font=MESSAGE_FONT, spacing=10, fill=255)
+    draw_tile(draw, (57, 490), "W", 2)
+    draw_tile(draw, (57 + TILE_SPACING, 490), "E", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 2, 490), "A", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 3, 490), "R", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 4, 490), "Y", -1)
+    draw.text((20, 540), "The letter W is in the word\nand in the correct spot.", font=MESSAGE_FONT, spacing=10, fill=255)
 
-    draw_tile(draw, (57, 700), "P", -1)
-    draw_tile(draw, (57 + TILE_SPACING, 700), "I", 1)
-    draw_tile(draw, (57 + TILE_SPACING * 2, 700), "L", -1)
-    draw_tile(draw, (57 + TILE_SPACING * 3, 700), "L", -1)
-    draw_tile(draw, (57 + TILE_SPACING * 4, 700), "S", -1)
-    draw.text((20, 750), "The letter I is in the word\nbut in the wrong spot.", font=MESSAGE_FONT, spacing=10, fill=255)
+    draw_tile(draw, (57, 670), "P", -1)
+    draw_tile(draw, (57 + TILE_SPACING, 670), "I", 1)
+    draw_tile(draw, (57 + TILE_SPACING * 2, 670), "L", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 3, 670), "L", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 4, 670), "S", -1)
+    draw.text((20, 720), "The letter I is in the word\nbut in the wrong spot.", font=MESSAGE_FONT, spacing=10, fill=255)
 
-    draw_tile(draw, (57, 880), "V", -1)
-    draw_tile(draw, (57 + TILE_SPACING, 880), "A", -1)
-    draw_tile(draw, (57 + TILE_SPACING * 2, 880), "G", -1)
-    draw_tile(draw, (57 + TILE_SPACING * 3, 880), "U", 0)
-    draw_tile(draw, (57 + TILE_SPACING * 4, 880), "E", -1)
-    draw.text((20, 930), "The letter U is not in the word\nin any spot.", font=MESSAGE_FONT, spacing=10, fill=255)
+    draw_tile(draw, (57, 850), "V", -1)
+    draw_tile(draw, (57 + TILE_SPACING, 850), "A", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 2, 850), "G", -1)
+    draw_tile(draw, (57 + TILE_SPACING * 3, 850), "U", 0)
+    draw_tile(draw, (57 + TILE_SPACING * 4, 850), "E", -1)
+    draw.text((20, 900), "The letter U is not in the word\nin any spot.", font=MESSAGE_FONT, spacing=10, fill=255)
+
+    draw.text((20, 1000), message, font=MESSAGE_FONT, spacing=10, fill=255)
 
 
 def draw_board(draw, target, guesses, message):
@@ -128,10 +130,10 @@ def draw_board(draw, target, guesses, message):
 
     title = "SDRdle"
     text_x, text_y = draw.textsize(title, font=TITLE_FONT)
-    draw.text((WIDTH // 2 - (text_x // 2), TILE_SPACING * 3 // 2 - (text_y // 2)), title, font=TITLE_FONT, fill=255)
+    draw.text((WIDTH // 2 - (text_x // 2), TILE_SPACING - (text_y // 2)), title, font=TITLE_FONT, fill=255)
 
     for row in range(6):
-        center_y = TILE_SPACING * (row + 3)
+        center_y = TILE_SPACING * (row + 2.5)
         guess = guesses[row]
         scores = score(target, guess)
 
@@ -151,13 +153,13 @@ def draw_board(draw, target, guesses, message):
     row_offsets = [1.5, 2.0, 3.0]
 
     for row, keyboard_row in enumerate(keyboard):
-        center_y = TILE_SPACING * (row + 9.5)
+        center_y = TILE_SPACING * (row + 9)
         for col, letter in enumerate(keyboard_row):
             center_x = TILE_SPACING * (col + row_offsets[row]) // 2
             draw_key(draw, (center_x, center_y), letter, letters[letter])
 
     text_x, text_y = draw.textsize(message, font=MESSAGE_FONT)
-    draw.text((WIDTH // 2 - (text_x // 2), TILE_SPACING * 25 // 2 - (text_y // 2)), message, font=MESSAGE_FONT, fill=255)
+    draw.text((WIDTH // 2 - (text_x // 2), TILE_SPACING * 12 - (text_y // 2)), message, font=MESSAGE_FONT, spacing=10, fill=255)
 
 
 with open("words1.txt") as f:
@@ -222,7 +224,8 @@ while True:
             guesses.append(comment)
             if guess == target:
                 player = None
-                message = "You win! Contact @argilo to get your flag."
+                message = "You win! Contact @argilo\nto get your flag."
+                print(f"{player} WINS!!!")
             elif len(guesses) == 6:
                 player = None
                 message = "Better luck next time."
@@ -236,7 +239,7 @@ while True:
     draw = ImageDraw.Draw(image)
 
     if len(guesses) == 0:
-        draw_rules(draw)
+        draw_rules(draw, message)
     else:
         draw_board(draw, target, guesses, message)
 
