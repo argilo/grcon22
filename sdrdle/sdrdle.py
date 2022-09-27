@@ -224,7 +224,7 @@ while True:
         message = f"Welcome, {player}!"
     elif source == player:
         if guess in allowed:
-            guesses.append(comment)
+            guesses.append(guess)
             if guess == target:
                 print(f"{player} WINS!!!")
                 player = None
