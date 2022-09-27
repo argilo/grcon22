@@ -19,6 +19,7 @@ TITLE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 2)
 TILE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE)
 KEY_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 5)
 MESSAGE_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 5)
+CALLSIGN_FONT = ImageFont.truetype("FreeSansBold.ttf", FONT_SIZE * 3 // 10)
 
 WIDTH = TILE_SPACING * 6
 HEIGHT = TILE_SPACING * 13
@@ -122,6 +123,7 @@ Examples:""", font=MESSAGE_FONT, spacing=10, fill=255)
     draw.text((20, 900), "The letter U is not in the word\nin any spot.", font=MESSAGE_FONT, spacing=10, fill=255)
 
     draw.text((20, 1000), message, font=MESSAGE_FONT, spacing=10, fill=255)
+    draw.text((370, TILE_SPACING * 25 // 2), "VE3IRR/W3", font=CALLSIGN_FONT, fill=255)
 
 
 def draw_board(draw, target, guesses, message):
@@ -160,6 +162,7 @@ def draw_board(draw, target, guesses, message):
 
     text_x, text_y = draw.textsize(message, font=MESSAGE_FONT)
     draw.text((WIDTH // 2 - (text_x // 2), TILE_SPACING * 12 - (text_y // 2)), message, font=MESSAGE_FONT, spacing=10, fill=255)
+    draw.text((370, TILE_SPACING * 25 // 2), "VE3IRR/W3", font=CALLSIGN_FONT, fill=255)
 
 
 with open("words1.txt") as f:
