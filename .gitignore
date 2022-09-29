@@ -7,11 +7,11 @@ __pycache__
 /ntsc/ntsc_hackrf.py
 /ntsc/out.c32
 /ntsc/rickroll.png
-/paint/logo-flag.png
-/paint/paint_tx.py
-/paint/paint1.py
-/paint/rect.c32
-/paint/signal_to_noise.sigmf-data
+/signal_to_noise/logo-flag.png
+/signal_to_noise/paint_tx.py
+/signal_to_noise/paint1.py
+/signal_to_noise/rect.c32
+/signal_to_noise/signal_to_noise.sigmf-data
 /sdrdle/aprs.log
 /sdrdle/sdrdle.png
 /sdrdle/sdrdle_tx.py
